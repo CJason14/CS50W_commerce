@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Watchlist</h2>
+    <table class="h_table">
+        {% for x in all %}
+        <tr>
+            <td class="h_listing">
+                <a href="/listing/{{ x.0.key }}">
+                    <div class="h_flex">
+                        <div>
+                            <h4>{{ x.0.title }}</h4>
+                            {{ x.0.description }}<br>
+                            {{ x.0.price }}$<br>
+                        </div>
+                        <div class="h_img">
+                            <img src="{{ x.0.photo }}">
+                        </div>
+                    </div>
+                    <div>
+                        <form action="{% url 'unwatchlist' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ x.0.key }}" name="key">
+                            <button type="submit">Delete</button>
+                        </form> 
+                    </div>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>    
+{% endblock %}

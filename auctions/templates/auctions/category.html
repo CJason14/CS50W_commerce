@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Category: {{ category }}</h2>
+    <table class="h_table">
+        {% for x in listings %}
+        <tr>
+            <td class="h_listing">
+                <a href="/listing/{{ x.key }}">
+                    <div class="h_flex">
+                        <div>
+                            <h4>{{ x.title }}</h4>
+                            {{ x.description }}<br>
+                            {{ x.price }}$<br>
+                        </div>
+                        <div class="h_img">
+                            <img src="{{ x.photo }}">
+                        </div>
+                    </div>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

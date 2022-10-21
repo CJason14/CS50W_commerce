@@ -1,0 +1,84 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% for x in listing %}
+
+<h1>{{ x.title }}</h1>
+<br>
+{% if closed == 0 %}
+<br>
+<h3>Closed</h3>
+<br>
+{% endif %}
+<div class="listing_img_container">
+    <img class="listing_img" src="{{ x.photo }}">
+</div>
+<div class="listing_bid">
+    <h3>Details:</h3>
+    <p><b>Description:</b><br>
+        {{ x.description }}<br>
+    </p>
+    <p><b>Starting Price:</b><br>
+        {{ x.price }}$<br>
+    </p>
+    <p><b>Listed by:</b><br>
+        {{ x.owner }}<br>
+    </p>
+    <p><b>Category:</b><br>
+        {{ x.category }}<br>
+    </p>
+    <br>
+    <h3>Bid:</h3>
+    <p><b>Current Price:</b><br>
+        {{ bid.price }}$<br>
+    </p>
+    <p><b>{% if closed == 1 %}User:{% else %}Winner:{% endif %}</b><br>
+        {{ bid.bidder }}<br>
+    </p>
+
+    <br><br>
+    {% if user.is_authenticated %}
+    {% if closed == 1 %}
+    <form action="{% url 'bid' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" value="{{ x.key }}" name="key">
+        <input type="number" name="price">
+        <button type="submit">Bid</button>
+    </form>
+</div>
+<br>
+<h2>Options:</h2>
+<form action="{% url 'watchlist' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" value="{{ x.key }}" name="key">
+    <button type="submit">Add to Watchlist</button>
+</form>
+{% endif %}
+<br>
+{% if owner == 1 %}
+<form action="{% url 'close' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" value="{{ x.key }}" name="key">
+    <button type="submit">Close</button>
+</form>
+{% endif %}
+{% endif %}
+<br>
+<div class="chat">
+    <div class="chat_see">
+        {% for x in comments %}
+        <div class="chat_message">
+            <h4>{{ x.writer}}</h4>
+            <p>{{ x.context }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <form class="chat_input" method="post" action="{% url 'comment' %}">
+        <input type="hidden" value="{{ x.key }}" name="key">
+        {% csrf_token %}
+        <textarea name="content" style="resize: none;"></textarea>
+        <button type="submit">Send</button>
+    </form>
+</div>
+{% endfor %}
+{% endblock %}

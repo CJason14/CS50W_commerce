@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h1>Add Product</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="title">Title</label><br>
+        <input type="text" id="title" name="titleitem">
+        <br><br>
+        <label for="description">Description</label><br>
+        <input type="text" id="description" name="description">
+        <br><br>
+        <label for="price">Price</label><br>
+        <input type="number" id="price" name="price">
+        <br><br>
+        <label for="photo">Image</label><br>
+        {{ form.as_p }}
+        <br><br>
+        <label for="category">Category</label><br>
+        <select type="text" id="category" name="category">
+            <option>None</option>
+            <option>Fashion</option>
+            <option>Toys</option>
+            <option>Electronics</option>
+            <option>Home</option>
+            <option>Car</option>
+        </select>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
